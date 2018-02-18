@@ -13,9 +13,13 @@ function _M.show(dict)
 end
 
 function _M.torrent_to_magnet(torrent)
-	local f = io.open(torrent)
+	local f = assert(io.open(torrent))
 	local data = f:read("*a")
 	-- print("read ", #data, " Bytes from ", torrent)
+	return _M.torrent_content_to_magnet(data)
+end
+
+function _M.torrent_content_to_magnet(data)
 	local metadata = bencode.decode(data)
 	-- _M.show(metadata)
 	local hashcontents = bencode.encode(metadata['info'])
